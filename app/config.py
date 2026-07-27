@@ -1,0 +1,5 @@
+
+class config:
+    SECRET_KEY ="Secret key"
+    SQLALCHEMY_DATABASE_URI = ""
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
