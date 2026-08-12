@@ -1,8 +1,14 @@
 {% extends 'Base.html' %}
 
 {% block Body %}
+    <h1>All post</h1>
     {% for post in posts %}
-        
+        <h2>{{post.title}}</h2>
+        <p>{{post.summary}}</p>
+        <p>{{post.content}}</p>
+        <hr>
+    {% else %}
+        <p>No Post Found</p>
     {% endfor %}
 
 {% endblock Body %}
