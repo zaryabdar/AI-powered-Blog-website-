@@ -1,4 +1,4 @@
-from Extensions import db
+from app.Extensions import db
 from datetime import datetime
 
 class Post(db.Model):

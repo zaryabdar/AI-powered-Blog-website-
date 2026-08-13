@@ -1,8 +1,8 @@
 from flask import Blueprint,render_template,url_for,redirect,flash,request,abort
 from flask_login import login_required,current_user
-from Extensions import db
-from models.post import Post
-from forms.post_forms import CreatePostForm,UpdatePostForm
+from app.Extensions import db
+from app.models.post import Post
+from app.forms.post_forms import CreatePostForm,UpdatePostForm
 
 
 post =Blueprint("post",__name__)

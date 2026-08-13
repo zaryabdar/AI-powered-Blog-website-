@@ -1,11 +1,15 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, logout_user, login_user, current_user
-from forms.auth_forms import RegistrationForm,LoginForm
-from models.user import User
-from Extensions import db
+from ..forms.auth_forms import RegistrationForm,LoginForm
+from app.models.user import User
+from app.Extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth",__name__)
+
+@auth.route("/")
+def index():
+    return redirect(url_for("auth.register"))
 
 @auth.route("/register", methods=["GET","POST"])
 def register():
@@ -21,7 +25,7 @@ def register():
         db.session.commit()
         flash("Account created successfully.", "success")
         return redirect(url_for("auth.login"))
-    return render_template("register.html", form = form) 
+    return render_template("authentication.html", form = form) 
 
 @auth.route("/login", methods=["GET","POST"])
 def login():
