@@ -13,32 +13,34 @@ def index():
 
 @auth.route("/register", methods=["GET","POST"])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hash_password = generate_password_hash(form.password.data)
+    registration_form = RegistrationForm()
+    if registration_form.validate_on_submit():
+        hash_password = generate_password_hash(registration_form.password.data)
         user = User(
-            username = form.username.data,
-            email = form.email.data,
+            username = registration_form.username.data,
+            email = registration_form.email.data,
             password_hash = hash_password
         )
         db.session.add(user)
         db.session.commit()
         flash("Account created successfully.", "success")
         return redirect(url_for("auth.login"))
-    return render_template("authentication.html", form = form) 
+    login_form = LoginForm()
+    return render_template("authentication.html", registration_form = registration_form, login_form = login_form) 
 
 @auth.route("/login", methods=["GET","POST"])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email= form.email.data).first()
-        if user and check_password_hash(user.password_hash, form.password.data):
-            login_user(user, remember=form.remember_me.data)
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        user = User.query.filter_by(email= login_form.email.data).first()
+        if user and check_password_hash(user.password_hash, login_form.password.data):
+            login_user(user, remember=login_form.remember_me.data)
             flash("Welcome back!", "success")
             if current_user.is_authenticated:
-                return redirect(url_for("main.dashboard"))
+                return redirect(url_for("post.all_posts"))
         flash("Invalid email or password.", "danger")
-    return render_template("login.html", form = form)
+    registration_form = RegistrationForm()
+    return render_template("authentication.html",registration_form = registration_form, login_form = login_form)
 
 @auth.route("/logout")
 @login_required

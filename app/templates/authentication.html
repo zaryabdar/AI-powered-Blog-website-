@@ -1,41 +1,27 @@
-{% extends 'base.html' %}
-{% block body %}
-<div>
+{% extends 'base.html' %} {% block body %}
+<div id="auth-container">
+  <div id="register-panel">
     <h1>Registration</h1>
-    <form method="POST">
-        {{form.hidden_tag()}}
-
-        {{form.username.label}}
-        {{form.username()}}
-
-        {{form.email.label}}
-        {{form.email()}}
-
-        {{form.password.label}}
-        {{form.password()}}
-
-        {{form.confirm_password.label}}
-        {{form.confirm_password()}}
-        
-        {{form.submit()}}
+    <form method="POST" action="{{url_for('auth.register')}}">
+      {{registration_form.hidden_tag()}} {{registration_form.username.label}} {{registration_form.username()}}
+      {{registration_form.email.label}} {{registration_form.email()}} {{registration_form.password.label}}
+      {{registration_form.password()}} {{registration_form.confirm_password.label}}
+      {{registration_form.confirm_password()}} {{registration_form.submit()}}
     </form>
-</div>
-<div>
+    <button type="button" id="show-login">
+        Already have an account? Login
+    </button>
+  </div>
+  <div id="login-panel">
     <h1>Login Form</h1>
-    <form method="POST">
-        {{form.hidden_tag()}}
-
-        {{form.email.label}}
-        {{form.email()}}
-
-        {{form.password.label}}
-        {{form.password()}}
-
-        {{form.remember_me.label}}
-        {{form.remember_me()}}
-        
-        {{form.submit()}}
+    <form method="POST" action="{{url_for('auth.login')}}">
+      {{login_form.hidden_tag()}} {{login_form.email.label}} {{login_form.email()}}
+      {{login_form.password.label}} {{login_form.password()}} {{login_form.remember_me.label}}
+      {{login_form.remember_me()}} {{login_form.submit()}}
     </form>
+    <button type="button" id="show-register">
+        Don't have an account? Register
+    </button>
+  </div>
 </div>
-    
 {% endblock body %}
