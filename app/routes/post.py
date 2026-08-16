@@ -16,6 +16,7 @@ def all_posts():
 @login_required
 def create_post():
     form = CreatePostForm()
+    print("Form VALIDATED")
 
     if form.validate_on_submit():
         post =Post(
@@ -28,9 +29,10 @@ def create_post():
         )
         db.session.add(post)
         db.session.commit()
+        print("POST SAVED:", post.id)
         flash("Post Uploaded Successfully","success")
         return redirect(url_for("post.all_posts"))
-
+    print("FORM ERRORS:", form.errors)
     return render_template("create_post.html",form = form)
 
 @post.route("/post/<int:id>/edit",methods=["GET","POST"])

@@ -3,13 +3,18 @@
 {% block body %}
     <h1>All post</h1>
     {% for post in posts %}
+        <p>{{post.cover_image}}</p>
         <h2>{{post.title}}</h2>
+        <p>{{post.slug}}</p>
         <p>{{post.summary}}</p>
         <p>{{post.content}}</p>
         <hr>
+        <a href="{{url_for('post.update_post', id = post.id)}}">Edit Post</a>
+        <form method="POST" action="{{url_for('post.delete_post', id = post.id)}}">
+            <button type="submit">Delete Post</button>
+        </form>
     {% else %}
         <h1>No Post Found</h1>
     {% endfor %}
-    
-
+    <a href="{{url_for('post.create_post')}}">Create Post</a>
 {% endblock body %}

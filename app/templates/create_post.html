@@ -2,11 +2,11 @@
 {% block body %}
     <h1>Create Post</h1>
 
-    <form method="post">
-        {{form.hidden_tag}}
+    <form method="POST">
+        {{form.hidden_tag()}}
 
         {{form.title.label}}
-        {{form.title()}}#
+        {{form.title()}}
 
         {{form.summary.label}}
         {{form.summary()}}

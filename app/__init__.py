@@ -15,9 +15,12 @@ def create_app():
         return User.query.get(int(user_id))
     migrate.init_app(app,db)
 
-    from . import models
+    from app.models.user import User
+    from app.models.post import Post
+
     from .routes.auth import auth
     from .routes.post import post
+    
     app.register_blueprint(auth)
     app.register_blueprint(post)
     return app
