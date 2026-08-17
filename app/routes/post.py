@@ -1,11 +1,18 @@
-from flask import Blueprint,render_template,url_for,redirect,flash,request,abort
+from flask import Blueprint,render_template,url_for,redirect,flash,request,abort, current_app
 from flask_login import login_required,current_user
 from app.Extensions import db
 from app.models.post import Post
 from app.forms.post_forms import CreatePostForm,UpdatePostForm
+from werkzeug.utils import secure_filename
+import os
 
 
 post =Blueprint("post",__name__)
+
+@post.route("/")
+def home():
+    posts = Post.query.filter_by(is_published=True).order_by(Post.created_at.desc()).all()
+    return render_template("templates/home.html", posts = posts)
 
 @post.route("/posts")
 def all_posts():
@@ -27,6 +34,18 @@ def create_post():
             cover_img = None,
             author_id =current_user.id
         )
+
+        image = request.files.get("cover_image")
+        if image and image.filename:
+            filename = secure_filename(image.filename)
+
+            upload_folder = os.path.join(
+                current_app.static_folder,
+                "uploads"
+            )
+            os.makedirs(upload_folder, exist_ok=True)
+            image.save(os.path.join(upload_folder,filename))
+            post.cover_img = filename
         db.session.add(post)
         db.session.commit()
         print("POST SAVED:", post.id)

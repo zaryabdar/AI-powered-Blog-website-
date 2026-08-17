@@ -2,7 +2,7 @@
 {% block body %}
     <h1>Create Post</h1>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {{form.hidden_tag()}}
 
         {{form.title.label}}

@@ -3,7 +3,12 @@
 {% block body %}
     <h1>All post</h1>
     {% for post in posts %}
-        <p>{{post.cover_image}}</p>
+        {% if post.cover_img %}
+    <img
+        src="{{ url_for('static', filename='uploads/' + post.cover_img) }}"
+        alt="{{ post.title }}"
+    >
+{% endif %}
         <h2>{{post.title}}</h2>
         <p>{{post.slug}}</p>
         <p>{{post.summary}}</p>
