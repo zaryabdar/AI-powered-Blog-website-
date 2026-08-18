@@ -3,16 +3,16 @@ from flask_login import login_required,current_user
 from app.Extensions import db
 from app.models.post import Post
 from app.forms.post_forms import CreatePostForm,UpdatePostForm
+from slugify import slugify
 from werkzeug.utils import secure_filename
 import os
-
 
 post =Blueprint("post",__name__)
 
 @post.route("/")
 def home():
     posts = Post.query.filter_by(is_published=True).order_by(Post.created_at.desc()).all()
-    return render_template("templates/home.html", posts = posts)
+    return render_template("home.html", posts = posts)
 
 @post.route("/posts")
 def all_posts():
@@ -23,12 +23,21 @@ def all_posts():
 @login_required
 def create_post():
     form = CreatePostForm()
-    print("Form VALIDATED")
 
     if form.validate_on_submit():
+
+        base_slug = slugify(form.title.data)
+        slug = base_slug
+
+        counter = 1
+
+        while Post.query.filter_by(slug = slug).first():
+            slug = f"{base_slug}-{counter}"
+            counter+=1
+        
         post =Post(
             title = form.title.data,
-            slug = "temporary slug",
+            slug = slug,
             summary = form.summary.data,
             content = form.content.data,
             cover_img = None,
@@ -36,6 +45,7 @@ def create_post():
         )
 
         image = request.files.get("cover_image")
+
         if image and image.filename:
             filename = secure_filename(image.filename)
 
@@ -48,11 +58,15 @@ def create_post():
             post.cover_img = filename
         db.session.add(post)
         db.session.commit()
-        print("POST SAVED:", post.id)
         flash("Post Uploaded Successfully","success")
         return redirect(url_for("post.all_posts"))
-    print("FORM ERRORS:", form.errors)
     return render_template("create_post.html",form = form)
+
+@post.route("/post/<slug>")
+def post_detail(slug):
+    post = Post.query.filter_by(slug=slug).first_or_404()
+    return render_template("post_detail.html", post=post)
+
 
 @post.route("/post/<int:id>/edit",methods=["GET","POST"])
 @login_required
@@ -60,7 +74,7 @@ def update_post(id):
     post = Post.query.get_or_404(id)
     if post.author_id != current_user.id:
         abort(403)
-    form =UpdatePostForm()
+    form = UpdatePostForm()
     if form.validate_on_submit():
         post.title = form.title.data
         post.slug = "New temporary slug"

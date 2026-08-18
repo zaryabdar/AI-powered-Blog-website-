@@ -6,7 +6,7 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
-    slug = db.Column(db.String(180), nullable=False, unique=True)
+    slug = db.Column(db.String(255), nullable=False, unique=True)
     summary = db.Column(db.String(300), nullable=False)
     content = db.Column(db.Text, nullable=False)
     cover_img = db.Column(db.String(255))

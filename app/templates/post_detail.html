@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div>
+        {% if post.cover_img %}
+            <img src="{{url_for('static', filename ='uploads/' + post.cover_img)}}" 
+            alt="{{post.title}}">
+        {% endif %}
+        <h1>
+            {{post.title}}
+        </h1>
+        <p>
+            Published on : {{post.created_at.strftime('%B %d, %Y')}}
+        </p>
+        <p>
+            {{post.summary}}
+        </p>
+        <p>
+            {{post.content}}
+        </p>
+
+    </div>
+{% endblock body %}

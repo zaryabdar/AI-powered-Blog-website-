@@ -7,9 +7,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint("auth",__name__)
 
-@auth.route("/")
-def index():
-    return redirect(url_for("auth.register"))
 
 @auth.route("/register", methods=["GET","POST"])
 def register():
