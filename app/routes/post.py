@@ -16,7 +16,7 @@ def home():
 
 @post.route("/posts")
 def all_posts():
-    posts = Post.query.all()
+    posts = Post.query.filter_by(author_id = current_user.id).all()
     return render_template("posts.html",posts=posts)
 
 @post.route("/post/new",methods=["GET","POST"])

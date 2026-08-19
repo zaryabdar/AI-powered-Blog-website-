@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div>
+        <h1> My Profile </h1>
+        <div>
+            <img src="{{url_for('static', filename = 'uploads/'+ user.profile_img)}}" 
+            alt="{{user.username}}">
+        <h2>
+            {{user.username}}
+        </h2>
+        <p>
+            {{user.email}}
+        </p>
+        {% if user.bio %}
+            <p>
+                {{user.bio}}
+            </p>
+        {% else %}
+            <p>
+                No Bio Added yet
+            </p>
+        {% endif %}
+            <p>
+                Joined {{user.created_at.strftime('%B %d,%Y')}}
+            </p>
+        </div>
+    </div>
+{% endblock body %}

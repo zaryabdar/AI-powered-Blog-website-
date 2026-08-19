@@ -39,6 +39,11 @@ def login():
     registration_form = RegistrationForm()
     return render_template("authentication.html",registration_form = registration_form, login_form = login_form)
 
+@auth.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html",user = current_user)
+
 @auth.route("/logout")
 @login_required
 def logout():

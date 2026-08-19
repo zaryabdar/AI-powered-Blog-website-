@@ -9,7 +9,7 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(80),unique=True, nullable=False)
     email = db.Column(db.String(120),unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    profile_img = db.Column(db.String(255), default="default.png")
+    profile_img = db.Column(db.String(255), default="default.jpg")
     bio = db.Column(db.Text)
     created_at = db.Column(db.DateTime,default=datetime.utcnow)
 

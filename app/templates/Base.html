@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 <body>
+    <nav>
+        <a href="{{url_for('auth.profile')}}"> Profile </a>
+        <a href="{{url_for('auth.register')}}"> Register </a>
+        <a href="{{url_for('auth.login')}}"> Login</a>
+        <a href="{{url_for('auth.logout')}}"> Logout</a>
+    </nav>
     {% block body %}
         
     {% endblock body %}
