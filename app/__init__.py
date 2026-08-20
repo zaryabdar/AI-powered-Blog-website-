@@ -20,8 +20,11 @@ def create_app():
 
     from .routes.auth import auth
     from .routes.post import post
+    from .routes.admin import admin
+
     
     app.register_blueprint(auth)
     app.register_blueprint(post)
+    app.register_blueprint(admin)
     return app
 

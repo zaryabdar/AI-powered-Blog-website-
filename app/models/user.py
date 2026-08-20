@@ -12,5 +12,6 @@ class User(UserMixin,db.Model):
     profile_img = db.Column(db.String(255), default="default.jpg")
     bio = db.Column(db.Text)
     created_at = db.Column(db.DateTime,default=datetime.utcnow)
+    role = db.Column(db.String(20), default="user", nullable=False)
 
     posts = db.relationship("Post", backref="author", lazy=True)

@@ -12,6 +12,11 @@
         <a href="{{url_for('auth.register')}}"> Register </a>
         <a href="{{url_for('auth.login')}}"> Login</a>
         <a href="{{url_for('auth.logout')}}"> Logout</a>
+        {% if current_user.is_authenticated and current_user.role == "Admin" %}
+            <a href="{{ url_for('admin.dashboard') }}">
+             Admin Dashboard
+             </a>
+        {% endif %}
     </nav>
     {% block body %}
         
