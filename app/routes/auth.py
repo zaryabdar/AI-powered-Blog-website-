@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash,current_app,request
 from flask_login import login_required, logout_user, login_user, current_user
-from ..forms.auth_forms import RegistrationForm,LoginForm
+from app.forms.auth_forms import RegistrationForm,LoginForm,EditProfileForm
 from app.models.user import User
 from app.Extensions import db
+from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 auth = Blueprint("auth",__name__)
 
@@ -43,6 +45,31 @@ def login():
 @login_required
 def profile():
     return render_template("profile.html",user = current_user)
+
+@auth.route("/profile-edit", methods =["GET","POST"])
+def update_profile():
+    form = EditProfileForm()
+
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.bio = form.bio.data
+        image = form.profile_img.data
+        if image:
+            filename = secure_filename(image.filename)
+            upload_folder = os.path.join(current_app.static_folder,"uploads")
+
+            os.makedirs("upload_folder", exist_ok=True)
+            image.save(os.path.join(upload_folder,filename))
+
+            current_user.profile_img =filename
+
+        db.session.commit()
+        flash("Profile updated Successfully","success")
+        return redirect(url_for("auth.profile"))
+    if request.method == "GET":
+        form.username.data = current_user.username
+        form.bio.data = current_user.bio
+    return render_template("edit_profile.html", form=form)
 
 @auth.route("/logout")
 @login_required
