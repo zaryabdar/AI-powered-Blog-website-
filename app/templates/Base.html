@@ -7,16 +7,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="{{url_for('auth.profile')}}"> Profile </a>
-        <a href="{{url_for('auth.register')}}"> Register </a>
-        <a href="{{url_for('auth.login')}}"> Login</a>
-        <a href="{{url_for('auth.logout')}}"> Logout</a>
-        {% if current_user.is_authenticated and current_user.role == "Admin" %}
-            <a href="{{ url_for('admin.dashboard') }}">
-             Admin Dashboard
-             </a>
-        {% endif %}
+    <nav class="border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="h-15 flex items-center justify-between">
+                <a class="text-2xl font-bold tracking-tight" href="{{url_for('post.home')}}">Tech<span class="text-blue-800">Sphere</span></a>
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="" class="hover:text-blue-700 transition">Home</a>
+                    <a href="" class="hover:text-blue-700 transition">Explore</a>
+                    <a href="" class="hover:text-blue-700 transition">Categories</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-600 hover:text-gray-900">🔍</button>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{url_for('auth.profile')}}" class="text-sm font-medium hover:text-blue-700"> Profile </a>
+                        {% if current_user.role == "Admin" %}
+                            <a href="{{ url_for('admin.dashboard') }}" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+                                Admin Dashboard
+                            </a>
+                        {% endif %}
+                            <a href="{{url_for('auth.logout')}}" class="rounded-full bg-gray-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-700 transition"> Logout</a>
+                    {% else %}
+                        <a href="{{url_for('auth.login')}}" class="text-sm font-medium hover:text-blue-700"> Login</a>
+                        <a href="{{url_for('auth.register')}}" class="rounded-full bg-blue-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-900 transition"> Get Started </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
     </nav>
     {% block body %}
         
