@@ -17,47 +17,61 @@
                 </div>
                 <!-- Right : HERO IMAGE -->
                 <div class="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <img src="{{url_for('static',filename = 'Images/Hero_Image.webp')}}" alt="Hero-image" class="w-full h-[70vh] rounded-2xl shadow-2xl object-contain">
+                        <img src="{{url_for('static',filename = 'Images/Hero_Image.webp')}}" alt="Hero-image" class="h-[70vh] rounded-2xl shadow-2xl object-contain">
                 </div>
         </div>
     </div>
 </section>
-    <div>
-        <h1>Latest Post</h1>
-        <p>Discover the latest articles from our community</p>
+<!-- Latest Post Section -->
+<section id="articles" class="min-h-[calc(100vh-60px)] flex items-center bg-gray-100">
+    <!-- Section Header -->
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="mb-5">
+            <h1 class="text-sm font-semibold tracking-widest text-gray-700  ">Latest Post</h1>
+            <p class=" mt-4 text-3xl font-bold tracking-tight text-gray-900"> Discover the latest ideas</p>
+            <p class="mt-3 max-w-2xl text-gray-600">
+                Explore the latest articles from our community covering
+                technology, AI, programming, and innovation.
+            </p>
+        </div>
         {% if posts %}
-            <div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for post in posts %}
-                <article>
+                <article class="group overflow-hidden rounded-2xl border border-gray-300 bg-gray-300 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ">
                      {% if post.cover_img %}
+                     <div class="aspect-[16/10] overflow-hidden">
                         <img
                             src="{{ url_for('static', filename='uploads/' + post.cover_img) }}"
                             alt="{{ post.title }}"
+                            class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                         >
+                     </div>
                     {% endif %}
-                    <div>
-                        <h2>{{post.title}}</h2>
-                        <p>
+                    <div class="p-4">
+                        <h2 class=" mt-2 text-md font-bold line-clamp-2 break-words leading-snug text-gray-900">{{post.title}}</h2>
+                        <p class="mt-2 line-clamp-3 break-words text-sm leading-6 text-gray-600">
                             {{post.summary}}
                         </p>
-                        <p>
-                            {{post.created_at.strftime('%B %D, %Y')}}
+                    </div>
+                    <div class="mt-2 flex items-center justify-between px-4">
+                        <p class="text-sm text-gray-600">
+                            {{post.created_at.strftime('%B %d, %Y')}}
                         </p>
-                        <a href="{{url_for('post.post_detail', slug = post.slug)}}"> Read More → </a>
+                        <a href="{{url_for('post.post_detail', slug = post.slug)}}" class="text-sm font-semibold text-gray-600 hover:text-gray-700"> Read More → </a>
                     </div>
                 </article>
                 {% endfor %}
             </div>
         {% else %}
-        <div>
-            <h2>
+        <div class="rounded-2xl border border-gray-900/30 bg-gray-700/10 px-6 py-12 text-center">
+            <h2 class="text-2xl font-bold text-gray-900">
                 No post yet
             </h2>
-            <p>
+            <p class="mt-3 text-gray-600">
                 Be the First one to publish a post!
             </p>
         </div>
         {% endif %}
     </div>
-    
+</section>
 {% endblock body %}
