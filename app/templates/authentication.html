@@ -1,27 +1,31 @@
 {% extends 'base.html' %} {% block body %}
-<div id="auth-container">
-  <div id="register-panel">
-    <h1>Registration</h1>
-    <form method="POST" action="{{url_for('auth.register')}}">
-      {{registration_form.hidden_tag()}} {{registration_form.username.label}} {{registration_form.username()}}
-      {{registration_form.email.label}} {{registration_form.email()}} {{registration_form.password.label}}
-      {{registration_form.password()}} {{registration_form.confirm_password.label}}
-      {{registration_form.confirm_password()}} {{registration_form.submit()}}
-    </form>
-    <button type="button" id="show-login">
-        Already have an account? Login
-    </button>
+<div class="min-h-[calc(100vh-60px)] flex items-center justify-center px-8 py-10 ">
+  <div id="auth-container" class=" relative w-full max-w-5xl min-h-[550px] flex border border-gray-700 p-5 overflow-hidden">
+    <div id="register-panel" class="absolute top-0 left-0 w-1/2 h-full flex flex-col items-center justify-center ">
+      <h1>Registration</h1>
+      <form method="POST" action="{{url_for('auth.register')}}" class="flex flex-col">
+        {{registration_form.hidden_tag()}} {{registration_form.username.label}} {{registration_form.username()}}
+        {{registration_form.email.label}} {{registration_form.email()}} {{registration_form.password.label}}
+        {{registration_form.password()}} {{registration_form.confirm_password.label}}
+        {{registration_form.confirm_password()}} {{registration_form.submit()}}
+      </form>
+      <button type="button" id="show-login">
+          Already have an account? Login
+      </button>
+    </div>
+    <div id="login-panel" class="absolute top-0 left-1/2 w-1/2 h-full flex flex-col items-center justify-center border-l border-gray-700">
+      <h1>Login Form</h1>
+      <form method="POST" action="{{url_for('auth.login')}}" class="flex flex-col">
+        {{login_form.hidden_tag()}} {{login_form.email.label}} {{login_form.email()}}
+        {{login_form.password.label}} {{login_form.password()}} {{login_form.remember_me.label}}
+        {{login_form.remember_me()}} {{login_form.submit()}}
+      </form>
+      <button type="button" id="show-register">
+          Don't have an account? Register
+      </button>
+    </div>
   </div>
-  <div id="login-panel">
-    <h1>Login Form</h1>
-    <form method="POST" action="{{url_for('auth.login')}}">
-      {{login_form.hidden_tag()}} {{login_form.email.label}} {{login_form.email()}}
-      {{login_form.password.label}} {{login_form.password()}} {{login_form.remember_me.label}}
-      {{login_form.remember_me()}} {{login_form.submit()}}
-    </form>
-    <button type="button" id="show-register">
-        Don't have an account? Register
-    </button>
-  </div>
+
 </div>
+
 {% endblock body %}
